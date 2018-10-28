@@ -20,3 +20,5 @@ and the F1..Fn keys switches workspaces. If there is no workspace in that slow
 previously, a terminal gets spawned into it. Other keybindings are:
 
     modifier+V : clipboard paste
+    modifier+DELETE : destroy current workspace
+    modifier+SYSREQ : force-reset the WM
