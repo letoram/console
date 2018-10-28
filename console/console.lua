@@ -68,7 +68,7 @@ function new_client(vid)
 -- or assign and activate
 	workspaces[new_ws] = { vid = vid, clipboard_temp = "" }
 	switch_workspace(new_ws)
-	return true
+	return true, workspaces[new_ws]
 end
 
 -- read configuration from database if its there, or use a default
@@ -101,10 +101,15 @@ function client_event_handler(source, status)
 -- first time a client has submitted a frame, so it can be used as a
 -- connection trigger as well.
 	elseif status.kind == "resized" then
-		if not find_client(source) then
-			new_client(source)
+		local client_ws = find_client(source)
+		if not client_ws then
+			_, client_ws = new_client(source)
+			if not client_ws then
+				return
+			end
 		end
 		resize_image(source, status.width, status.height)
+		client_ws.aid = status.source_audio
 
 -- an external connection goes through a 'connected' (the socket has been consumed)
 -- state where the decision to re-open the connection point should be made
@@ -213,6 +218,14 @@ function valid_hotkey(input)
 				delete_image(workspaces[ws_index].vid)
 				workspaces[ws_index] = nil
 				switch_workspace()
+			end
+
+-- toggle mute on a specific audio source by querying the current value
+-- and inverting it (1.0 - n)
+		elseif input.keysym == KEYBOARD.m then
+			if workspaces[ws_index] and workspaces[ws_index].aid then
+				local current = audio_gain(workspaces[ws_index].aid, nil)
+				audio_gain(workspaces[ws_index].aid, 1.0 - current)
 			end
 
 -- for handy testing of adoption etc.

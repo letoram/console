@@ -22,3 +22,4 @@ previously, a terminal gets spawned into it. Other keybindings are:
     modifier+V : clipboard paste
     modifier+DELETE : destroy current workspace
     modifier+SYSREQ : force-reset the WM
+    modifier+M : toggle client audio
