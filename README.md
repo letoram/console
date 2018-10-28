@@ -17,4 +17,6 @@ Follow the normal setup / install instructions for arcan, and run with:
 
 The default keyboard modifier for WM controlled keybindings is 'right shift'
 and the F1..Fn keys switches workspaces. If there is no workspace in that slow
-previously, a terminal gets spawned into it.
+previously, a terminal gets spawned into it. Other keybindings are:
+
+    modifier+V : clipboard paste
