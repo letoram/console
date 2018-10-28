@@ -15,5 +15,6 @@ Follow the normal setup / install instructions for arcan, and run with:
 
     arcan /path/to/console_wm/console
 
-A fullscreen terminal should spawn, exiting that terminal should kill arcan
-and the WM.
+The default keyboard modifier for WM controlled keybindings is 'right shift'
+and the F1..Fn keys switches workspaces. If there is no workspace in that slow
+previously, a terminal gets spawned into it.
