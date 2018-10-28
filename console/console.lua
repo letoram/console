@@ -131,6 +131,16 @@ function client_event_handler(source, status)
 		target_displayhint(source,
 			VRESW, VRESH, TD_HINT_IGNORE, {ppcm = VPPCM})
 
+-- tell the terminal about the fonts we want it to use (if set)
+		local font = get_key("terminal_font")
+		local font_sz = get_key("font_size")
+
+		if font and (status.segkind == "tui" or status.segkind == "terminal") then
+			target_fonthint(source, font, (tonumber(font_sz) or 12) * FONT_PT_SZ, 2)
+		else
+			target_fonthint(source, (tonumber(font_sz) or 12) * FONT_PT_SZ, 2)
+		end
+
 -- the client wish a new subwindow of a certain type, only ones we'll accept
 -- now is a clipboard which is used for 'copy' operations
 	elseif status.kind == "segment_request" and status.segkind == "clipboard" then

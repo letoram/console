@@ -23,3 +23,19 @@ previously, a terminal gets spawned into it. Other keybindings are:
     modifier+DELETE : destroy current workspace
     modifier+SYSREQ : force-reset the WM
     modifier+M : toggle client audio
+
+Config
+===
+
+The arcan\_db tool can be used to set additional configuration options:
+
+    arcan_db add_appl_kv console key value
+
+The accepted keys are:
+
+    keymap (default = devmaps/keyboard/default.lua)
+    connection_point (default = console)
+    terminal (extra terminal arguments, see ARCAN_ARG=help afsrv_terminal)
+    font_size (preferred font size in PT)
+    terminal_font (preferred terminal font, searched in ARCAN_FONTPATH env)
+
