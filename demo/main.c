@@ -27,6 +27,19 @@ static bool handle_input(struct arcan_shmif_cont* C, struct arcan_event* ev)
 
 static bool handle_target(struct arcan_shmif_cont* C, struct arcan_event* ev)
 {
+	switch (ev->tgt.kind){
+	case TARGET_COMMAND_DISPLAYHINT:{
+		size_t w = ev->tgt.ioevs[0].uiv;
+		size_t h = ev->tgt.ioevs[1].uiv;
+		if (w && h){
+			arcan_shmif_resize(C, w, h);
+			return true;
+		}
+	}
+	break;
+	default:
+	break;
+	}
 	return false;
 }
 
