@@ -14,6 +14,46 @@ static void draw_frame(struct arcan_shmif_cont* C, size_t ts)
 		}
 }
 
+static bool handle_input(struct arcan_shmif_cont* C, struct arcan_event* ev)
+{
+	return (
+		ev->io.kind == EVENT_IO_BUTTON &&
+		ev->io.devkind == EVENT_IDEVKIND_KEYBOARD &&
+		ev->io.datatype == EVENT_IDATATYPE_TRANSLATED &&
+		ev->io.input.translated.keysym == 108 &&
+		ev->io.input.translated.active
+	);
+}
+
+static bool handle_target(struct arcan_shmif_cont* C, struct arcan_event* ev)
+{
+	return false;
+}
+
+static void event_loop(struct arcan_shmif_cont* C)
+{
+	struct arcan_event ev;
+	size_t step = 0;
+
+/* send an initial frame so that there is a visible window to provide input */
+	draw_frame(C, step++);
+	arcan_shmif_signal(C, SHMIF_SIGVID);
+
+	while(arcan_shmif_wait(C, &ev)){
+		bool dirty = false;
+		if (ev.category == EVENT_IO)
+			dirty |= handle_input(C, &ev);
+		else if (ev.category == EVENT_TARGET)
+			dirty |= handle_target(C, &ev);
+
+			if (!dirty)
+				continue;
+
+		draw_frame(C, step++);
+		arcan_shmif_signal(C, SHMIF_SIGVID);
+	}
+}
+
 int main(int argc, char** argv)
 {
 /* can be used with if (arg_lookup(args, "key", occurence, &str_result) */
@@ -30,11 +70,7 @@ int main(int argc, char** argv)
 	struct arcan_shmif_initial* cfg;
 	arcan_shmif_initial(&conn, &cfg);
 
-	size_t ts = 0;
-	for (;;){
-		draw_frame(&conn, ts++);
-		arcan_shmif_signal(&conn, SHMIF_SIGVID);
-	}
+	event_loop(&conn);
 
 	return EXIT_SUCCESS;
 }
