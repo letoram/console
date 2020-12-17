@@ -5,8 +5,14 @@ This is a simple 'console' like window manager intended to show just how easy
 it can be to define a window manager of your own in the Arcan ecosystem.
 
 The git history is arranged as a 'step by step' demonstration where each
-commit adds some notable feature. Check the Arcan blog @ arcan-fe.com for
-a write-up that explains the steps in further detail.
+commit adds some notable feature.
+
+The blog post:
+https://arcan-fe.com/2018/10/31/walkthrough-writing-a-kmscon-console-like-window-manager-using-arcan/
+describes things in further detail.
+
+_The window manager has been merged into the main arcan repository and is part of the
+default distribution. Future development is being done there (github.com/letoram/arcan)_
 
 Use
 ===
